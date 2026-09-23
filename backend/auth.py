@@ -94,12 +94,13 @@ def _mint_jwt(user_id: str, email: str, name: str, picture: Optional[str]) -> st
 
 
 def _set_session_cookie(response: Response, token: str) -> None:
+    is_prod = settings.ENVIRONMENT.lower() == "production"
     response.set_cookie(
         key=SESSION_COOKIE,
         value=token,
         httponly=True,
-        samesite="lax",
-        secure=settings.ENVIRONMENT == "production",
+        samesite="none" if is_prod else "lax",
+        secure=is_prod,
         max_age=TOKEN_EXPIRE_HOURS * 3600,
         path="/",
     )
@@ -165,7 +166,8 @@ def google_login(dev: bool = False):
             key="onboarding_completed",
             value="true" if is_onboarded else "false",
             httponly=False,
-            samesite="lax",
+            samesite="none" if settings.ENVIRONMENT.lower() == "production" else "lax",
+            secure=settings.ENVIRONMENT.lower() == "production",
             max_age=TOKEN_EXPIRE_HOURS * 3600,
             path="/",
         )
@@ -269,7 +271,8 @@ async def google_callback(request: Request):
         key="onboarding_completed",
         value="true" if is_onboarded else "false",
         httponly=False,
-        samesite="lax",
+        samesite="none" if settings.ENVIRONMENT.lower() == "production" else "lax",
+        secure=settings.ENVIRONMENT.lower() == "production",
         max_age=TOKEN_EXPIRE_HOURS * 3600,
         path="/",
     )
