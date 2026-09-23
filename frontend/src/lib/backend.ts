@@ -6,8 +6,19 @@
  * No Supabase token or localStorage is needed.
  */
 
-export const BACKEND_URL =
-  process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
+export const getBackendUrl = (): string => {
+  if (process.env.NEXT_PUBLIC_BACKEND_URL) {
+    return process.env.NEXT_PUBLIC_BACKEND_URL;
+  }
+  if (typeof window !== "undefined") {
+    if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+      return "http://localhost:8000";
+    }
+  }
+  return "https://aitutor-backend-4dll.onrender.com";
+};
+
+export const BACKEND_URL = getBackendUrl();
 
 export async function authedFetch(
   path: string,
@@ -20,7 +31,8 @@ export async function authedFetch(
     headers.set("Content-Type", "application/json");
   }
 
-  return fetch(`${BACKEND_URL}${path}`, {
+  const baseUrl = getBackendUrl();
+  return fetch(`${baseUrl}${path}`, {
     ...init,
     headers,
     credentials: "include", // sends the session_token HttpOnly cookie automatically
