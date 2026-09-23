@@ -32,6 +32,13 @@ export async function authedFetch(
     headers.set("Content-Type", "application/json");
   }
 
+  if (typeof window !== "undefined") {
+    const token = localStorage.getItem("session_token");
+    if (token && !headers.has("Authorization")) {
+      headers.set("Authorization", `Bearer ${token}`);
+    }
+  }
+
   const baseUrl = getBackendUrl();
   return fetch(`${baseUrl}${path}`, {
     ...init,

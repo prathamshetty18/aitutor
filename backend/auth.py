@@ -159,7 +159,7 @@ def google_login(dev: bool = False):
         )
         is_onboarded = bool(user.get("onboarding_completed"))
         token = _mint_jwt(dev_id, dev_email, dev_name, None)
-        redirect_url = f"{origin}/auth/callback"
+        redirect_url = f"{origin}/auth/callback?token={token}&onboarded={'true' if is_onboarded else 'false'}"
         response = RedirectResponse(url=redirect_url)
         _set_session_cookie(response, token)
         response.set_cookie(
@@ -262,7 +262,7 @@ async def google_callback(request: Request):
     token = _mint_jwt(google_id, email, name, picture)
 
     # Build redirect response with the session cookie
-    redirect_url = f"{origin}/auth/callback"
+    redirect_url = f"{origin}/auth/callback?token={token}&onboarded={'true' if is_onboarded else 'false'}"
     response = RedirectResponse(url=redirect_url)
     _set_session_cookie(response, token)
     # Match the session lifetime — a 10-minute max_age made the frontend think

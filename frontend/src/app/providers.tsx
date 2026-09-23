@@ -56,8 +56,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     async function checkSession() {
       try {
+        const headers: Record<string, string> = {};
+        if (typeof window !== "undefined") {
+          const token = localStorage.getItem("session_token");
+          if (token) {
+            headers["Authorization"] = `Bearer ${token}`;
+          }
+        }
+
         const res = await fetch(`${getBackendUrl()}/api/auth/me`, {
           method: "GET",
+          headers,
           credentials: "include",
         });
 
