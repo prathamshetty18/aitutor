@@ -4,6 +4,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import { usePathname, useRouter } from "next/navigation";
 import { GraduationCap, RefreshCw } from "lucide-react";
 import type { Role, User, OnboardingData, SwotData } from "@/lib/types";
+import { getBackendUrl } from "@/lib/backend";
 
 interface AuthContextType {
   user: User | null;
@@ -31,7 +32,6 @@ const defaultOnboarding: OnboardingData = {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
 const PROTECTED_PREFIXES = ["/dashboard", "/onboarding", "/teacher", "/admin", "/demo"];
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -56,7 +56,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     async function checkSession() {
       try {
-        const res = await fetch(`${BACKEND_URL}/api/auth/me`, {
+        const res = await fetch(`${getBackendUrl()}/api/auth/me`, {
           method: "GET",
           credentials: "include",
         });
@@ -145,7 +145,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // ---------------------------------------------------------------------------
   const loginWithGoogle = useCallback(() => {
     // eslint-disable-next-line @next/next/no-location-assign-relative-destination
-    window.location.href = `${BACKEND_URL}/api/auth/google`;
+    window.location.href = `${getBackendUrl()}/api/auth/google`;
   }, []);
 
   // ---------------------------------------------------------------------------
@@ -153,7 +153,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // ---------------------------------------------------------------------------
   const logout = useCallback(async () => {
     try {
-      await fetch(`${BACKEND_URL}/api/auth/logout`, {
+      await fetch(`${getBackendUrl()}/api/auth/logout`, {
         method: "POST",
         credentials: "include",
       });
