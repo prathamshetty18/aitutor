@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+
+# Database & local data
+*.db
+*.sqlite
+*.sqlite3
+backend/ai_tutor.db
+backend/alerts.log
+
+# Node & Next.js
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/.env.local
+
+# Secrets & environment
+.env
+backend/.env
+.env*.local
+!.env.example
+client_secret*.json
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

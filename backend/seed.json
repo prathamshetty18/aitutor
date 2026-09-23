@@ -1,0 +1,51 @@
+[
+  {
+    "day_offset": 6,
+    "date": "2026-09-16",
+    "transcript_text": "Started the new semester week today. Feeling energetic, motivated, and ready to tackle OS and algorithms coursework!",
+    "target_sentiment": 0.75,
+    "target_emotion": "Confident"
+  },
+  {
+    "day_offset": 5,
+    "date": "2026-09-17",
+    "transcript_text": "Operating systems lab had a tricky segmentation fault. It took two hours to debug thread deadlocks, but managed to submit it.",
+    "target_sentiment": 0.25,
+    "target_emotion": "Calm"
+  },
+  {
+    "day_offset": 4,
+    "date": "2026-09-18",
+    "transcript_text": "Falling behind on recursion and dynamic programming homework problem sets. Deadlines are piling up and anxiety is creeping in.",
+    "target_sentiment": -0.30,
+    "target_emotion": "Anxious"
+  },
+  {
+    "day_offset": 3,
+    "date": "2026-09-19",
+    "transcript_text": "Stayed awake until 4 AM stressing about upcoming midterm exams. Brain feels completely foggy and exhausted in lectures.",
+    "target_sentiment": -0.55,
+    "target_emotion": "Frustrated"
+  },
+  {
+    "day_offset": 2,
+    "date": "2026-09-20",
+    "transcript_text": "Bombed the surprise quiz in database systems today. Feeling completely lost, overwhelmed, and like I don't belong in this program.",
+    "target_sentiment": -0.75,
+    "target_emotion": "Overwhelmed"
+  },
+  {
+    "day_offset": 1,
+    "date": "2026-09-21",
+    "transcript_text": "Struggled to even get out of bed this morning. Skipped classes all day. Everything feels like too much weight on my chest.",
+    "target_sentiment": -0.85,
+    "target_emotion": "Exhausted"
+  },
+  {
+    "day_offset": 0,
+    "date": "2026-09-22",
+    "transcript_text": "Total mental burnout. I can't catch up anymore and I feel completely hopeless about this semester. I don't know what to do.",
+    "target_sentiment": -0.92,
+    "target_emotion": "Despair"
+  }
+]

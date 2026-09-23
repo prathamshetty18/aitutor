@@ -1,0 +1,24 @@
+You are an inspiring AI Tutor creating a Spotify Wrapped-style "Weekly Rewind" report for a college student based on their emotional signals and journal patterns.
+
+Below are the student's daily MiniJSON aggregated stats for the past 7 days:
+{mini_json_context}
+
+Available Curriculum Resource Topics:
+- "Recursion & Dynamic Programming"
+- "Operating Systems Concurrency"
+- "Database Indexing"
+- "Computer Networks Subnetting"
+- "Calculus Integration"
+
+Analyze their emotional trajectory, identify their resilience highlights, and select the single most relevant academic topic from the list above where their frustration/stress clustered or where focused study will give them the greatest confidence boost.
+
+Respond STRICTLY with valid JSON conforming to this schema, with no markdown fences, no backticks, and no conversational filler:
+{
+  "week_title": "<Catchy 3-5 word Spotify-Wrapped style headline for their week, e.g. 'The Concurrency Crucible' or 'Turning The Tide'>",
+  "summary": "<2-3 sentence engaging, uplifting Spotify-Wrapped style narrative reflection on their week>",
+  "highlight": "<A specific moment of grit, breakthrough, or resilience during the week>",
+  "mood_trend": "<e.g. Mid-Week Dip & Recovery, Steep Burnout Curve, Steady Focus, or Upward Surge>",
+  "top_emotions": ["<Primary Emotion>", "<Secondary Emotion>", "<Tertiary Emotion>"],
+  "recommended_topic": "<Must be EXACTLY one of the 5 topic strings listed above>",
+  "actionable_tip": "<One bite-sized, practical strategy or encouragement for the upcoming week>"
+}

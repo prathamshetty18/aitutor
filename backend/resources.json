@@ -1,0 +1,22 @@
+{
+  "Recursion & Dynamic Programming": {
+    "youtube_url": "https://www.youtube.com/watch?v=oBt53YbR9Kk",
+    "title": "Dynamic Programming - Learn to Solve Algorithmic Problems (FreeCodeCamp)"
+  },
+  "Operating Systems Concurrency": {
+    "youtube_url": "https://www.youtube.com/watch?v=olYdb0XxGow",
+    "title": "Operating Systems: Concurrency, Deadlocks & Thread Synchronization"
+  },
+  "Database Indexing": {
+    "youtube_url": "https://www.youtube.com/watch?v=aZjYr87r1b8",
+    "title": "How Database B-Trees and Indexing Work Under the Hood"
+  },
+  "Computer Networks Subnetting": {
+    "youtube_url": "https://www.youtube.com/watch?v=s_Ntt6eTn94",
+    "title": "Computer Networking Complete Course - Subnetting and Routing"
+  },
+  "Calculus Integration": {
+    "youtube_url": "https://www.youtube.com/watch?v=rfG8ce4nNh0",
+    "title": "Essence of Calculus - Integration & The Fundamental Theorem (3Blue1Brown)"
+  }
+}

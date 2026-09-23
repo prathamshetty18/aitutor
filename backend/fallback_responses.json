@@ -1,0 +1,20 @@
+{
+  "sentiment_fallback": {
+    "sentiment_score": -0.65,
+    "emotion_label": "Overwhelmed"
+  },
+  "rewind_fallback": {
+    "week_title": "Navigating the Mid-Semester Storm",
+    "summary": "This week tested your academic resilience across complex systems programming and dynamic problem sets. While fatigue peaked midweek, you demonstrated persistence through demanding coursework.",
+    "highlight": "Persisted through severe concurrency bugs and maintained daily reflective journaling amidst escalating pressure.",
+    "mood_trend": "Steep Mid-Week Dip with Ongoing Fatigue",
+    "top_emotions": [
+      "Overwhelmed",
+      "Frustrated",
+      "Exhausted"
+    ],
+    "recommended_topic": "Recursion & Dynamic Programming",
+    "actionable_tip": "Break complex dynamic programming recurrence relations into small 15-minute sub-problems and take structured sleep intervals."
+  },
+  "alert_reason_fallback": "Persistent 7-day declining emotional trajectory with acute distress indicators across evaluation window."
+}

@@ -1,0 +1,23 @@
+================================================================================
+INSTITUTIONAL EARLY WARNING DISTRESS ALERT - CONFIDENTIAL DISPATCH
+================================================================================
+Recipient: {hod_email}
+Source: Automated Academic Wellbeing Early-Warning Sensor (On-Device Inference)
+Status: DISPATCHED TO HOD INBOX
+
+STUDENT DETAILS:
+- Student ID: {student_id}
+- Detection Pattern: {window}-Day Rolling Sentiment Trajectory Evaluation
+
+TRIGGER ASSESSMENT:
+{reason}
+
+PRIVACY & ETHICAL PROTOCOL COMPLIANCE:
+- ZERO raw journal entries or student voice transcripts are included in this alert.
+- All voice recordings and transcripts remain strictly stored in the student's local/offline database.
+- Escalation triggered solely by aggregate mathematical trend analysis.
+
+RECOMMENDED ACTION:
+- Institutional counselor / HOD is requested to schedule an empathetic 1-on-1 academic check-in.
+- Review recent exam/assignment deadlines and offer academic or counseling support resources.
+================================================================================
