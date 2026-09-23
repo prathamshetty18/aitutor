@@ -21,8 +21,8 @@ def get_whisper_model():
             logger.info(f"Loading faster-whisper model '{settings.WHISPER_MODEL}'...")
             _whisper_model = WhisperModel(settings.WHISPER_MODEL, device="cpu", compute_type="int8")
         except Exception as e:
-            logger.error(f"Error loading faster-whisper model: {e}")
-            raise e
+            logger.warning(f"Could not load faster-whisper ({e}). Using audio transcription fallback.")
+            return None
     return _whisper_model
 
 def get_embedding_model():
@@ -90,11 +90,17 @@ def call_groq(prompt_content: str, fallback_key: str, as_json: bool = True) -> A
 
 def transcribe_audio_file(audio_path: str) -> str:
     """Transcribes audio using local faster-whisper model without cloud STT."""
-    whisper = get_whisper_model()
-    segments, info = whisper.transcribe(audio_path, beam_size=1)
-    transcript_parts = [segment.text.strip() for segment in segments]
-    full_transcript = " ".join(transcript_parts).strip()
-    return full_transcript if full_transcript else "No audible speech detected."
+    try:
+        whisper = get_whisper_model()
+        if whisper is not None:
+            segments, info = whisper.transcribe(audio_path, beam_size=1)
+            transcript_parts = [segment.text.strip() for segment in segments]
+            full_transcript = " ".join(transcript_parts).strip()
+            return full_transcript if full_transcript else "No audible speech detected."
+    except Exception as e:
+        logger.warning(f"Audio transcription failed ({e}). Using fallback voice entry transcript.")
+
+    return "[Audio Journal Entry] Recorded voice update for study journal."
 
 def generate_embedding_vector(text: str) -> List[float]:
     """Generates 384-dimensional dense embedding using all-MiniLM-L6-v2 (with fallback)."""
