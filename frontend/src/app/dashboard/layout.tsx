@@ -122,8 +122,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
         </div>
 
-        {/* Mobile tabs */}
-        <div className="md:hidden flex items-center gap-1 px-4 pb-3 overflow-x-auto">
+        {/* Mobile tabs top scroll bar */}
+        <div className="md:hidden flex items-center gap-1 px-4 pb-2.5 overflow-x-auto scrollbar-none border-t border-slate-100 pt-2">
           {STUDENT_TABS.map((tab) => {
             const Icon = iconMap[tab.id] || Home;
             const isActive = getActiveTab() === tab.id;
@@ -133,7 +133,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 href={tab.href}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
                   isActive
-                    ? "bg-[var(--accent-primary-light)] text-[var(--accent-primary)]"
+                    ? "bg-[var(--accent-primary-light)] text-[var(--accent-primary)] font-semibold"
                     : "text-[var(--text-muted)]"
                 }`}
               >
@@ -142,13 +142,59 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               </Link>
             );
           })}
+          <Link
+            href={ROUTES.rewind}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
+              pathname.startsWith(ROUTES.rewind)
+                ? "bg-[var(--accent-purple-light)] text-[var(--accent-purple)] font-semibold"
+                : "text-[var(--text-muted)]"
+            }`}
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            Rewind
+          </Link>
         </div>
       </nav>
 
       {/* ── Main content ────────────────────── */}
-      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 py-8">
+      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 py-6 md:py-8 pb-24 md:pb-8">
         {children}
       </main>
+
+      {/* ── Mobile Bottom Navigation Bar (App Dock) ────── */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-t border-slate-200/80 shadow-[0_-4px_20px_rgba(0,0,0,0.06)] px-2 py-2">
+        <div className="flex items-center justify-around max-w-md mx-auto">
+          {STUDENT_TABS.map((tab) => {
+            const Icon = iconMap[tab.id] || Home;
+            const isActive = getActiveTab() === tab.id;
+            return (
+              <Link
+                key={tab.id}
+                href={tab.href}
+                className={`flex flex-col items-center gap-0.5 px-2.5 py-1 rounded-xl text-[10px] font-medium transition-all ${
+                  isActive
+                    ? "text-[var(--accent-primary)] font-bold scale-105"
+                    : "text-slate-400 hover:text-slate-600"
+                }`}
+              >
+                <Icon className={`w-5 h-5 ${isActive ? "text-[var(--accent-primary)]" : "text-slate-400"}`} />
+                <span>{tab.label}</span>
+              </Link>
+            );
+          })}
+          <Link
+            href={ROUTES.rewind}
+            className={`flex flex-col items-center gap-0.5 px-2.5 py-1 rounded-xl text-[10px] font-medium transition-all ${
+              pathname.startsWith(ROUTES.rewind)
+                ? "text-[var(--accent-purple)] font-bold scale-105"
+                : "text-slate-400 hover:text-slate-600"
+            }`}
+          >
+            <Sparkles className={`w-5 h-5 ${pathname.startsWith(ROUTES.rewind) ? "text-[var(--accent-purple)]" : "text-slate-400"}`} />
+            <span>Rewind</span>
+          </Link>
+        </div>
+      </nav>
     </div>
   );
 }

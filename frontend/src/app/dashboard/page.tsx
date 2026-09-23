@@ -315,8 +315,8 @@ export default function DashboardHome() {
         {/* ── Left column: Progress + Goals ─── */}
         <div className="lg:col-span-2 space-y-6">
           {/* Progress tracker */}
-          <div className="axiom-card p-6">
-            <div className="flex items-start gap-6">
+          <div className="axiom-card p-5 sm:p-6">
+            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6">
               <ProgressRing progress={overallProgress} size={140} strokeWidth={12} color="var(--accent-primary)">
                 <div className="text-center">
                   <span className="font-display text-3xl font-bold text-[var(--text-primary)]">
