@@ -7,8 +7,9 @@
  */
 
 export const getBackendUrl = (): string => {
-  if (process.env.NEXT_PUBLIC_BACKEND_URL) {
-    return process.env.NEXT_PUBLIC_BACKEND_URL;
+  const envUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+  if (envUrl && !envUrl.includes("koyeb")) {
+    return envUrl;
   }
   if (typeof window !== "undefined") {
     if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
