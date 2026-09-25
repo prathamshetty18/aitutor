@@ -6,7 +6,7 @@
 
 ## 🚀 Quick‑Start (3‑Command Setup)
 
-### 1️⃣ Install Dependencies
+### 1️⃣ Install Dependencies:
 ```bash
 # Backend (Python 3.12)
 cd backend && .\.venv\Scripts\pip install -r requirements.txt
