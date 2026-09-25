@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "./providers";
 import { useRouter } from "next/navigation";
+import type { User } from "@/lib/types";
 
 const features = [
   {
@@ -48,7 +49,7 @@ const features = [
 ];
 
 export default function LandingPage() {
-  const { isLoggedIn, user, role, loginWithGoogle } = useAuth();
+  const { isLoggedIn, user, role, loginWithGoogle, onboardingData } = useAuth();
   const router = useRouter();
   const [authError, setAuthError] = useState<string | null>(null);
 
@@ -76,9 +77,17 @@ export default function LandingPage() {
   }, []);
 
   const handleGoToApp = () => {
-    if (role === "teacher") router.push("/teacher");
-    else if (role === "admin") router.push("/admin");
-    else router.push("/dashboard");
+    const extUser = user as (User & { onboarding_completed?: boolean }) | null;
+    const isOnboarded = Boolean(onboardingData.goals) || extUser?.onboarding_completed;
+    const destination =
+      role === "teacher"
+        ? "/teacher"
+        : role === "admin"
+        ? "/admin"
+        : isOnboarded !== false
+        ? "/dashboard"
+        : "/onboarding";
+    window.location.href = destination;
   };
 
   return (
