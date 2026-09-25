@@ -140,12 +140,50 @@ def _user_to_profile(user: dict) -> UserProfile:
 # Route 1: Start Google OAuth
 # ---------------------------------------------------------------------------
 
+# ---------------------------------------------------------------------------
+# Helpers for Dynamic Deployment Origins & Callbacks
+# ---------------------------------------------------------------------------
+
+def _get_frontend_origin(request: Request) -> str:
+    query_origin = request.query_params.get("origin") or request.query_params.get("state")
+    if query_origin and query_origin.startswith("http"):
+        return query_origin.rstrip("/")
+
+    referer = request.headers.get("referer")
+    if referer and referer.startswith("http"):
+        parsed = urllib.parse.urlparse(referer)
+        return f"{parsed.scheme}://{parsed.netloc}".rstrip("/")
+
+    origins = [o.strip() for o in settings.FRONTEND_ORIGIN.split(",") if o.strip()]
+    if settings.ENVIRONMENT.lower() == "production":
+        for o in origins:
+            if "localhost" not in o and "127.0.0.1" not in o:
+                return o.rstrip("/")
+    return origins[0].rstrip("/") if origins else "http://localhost:3000"
+
+
+def _get_callback_url(request: Request) -> str:
+    configured = settings.GOOGLE_CALLBACK_URL.strip()
+    if "localhost" in configured or "127.0.0.1" in configured or not configured:
+        host = request.headers.get("x-forwarded-host") or request.headers.get("host")
+        scheme = request.headers.get("x-forwarded-proto") or ("https" if settings.ENVIRONMENT.lower() == "production" else "http")
+        if host:
+            return f"{scheme}://{host}/api/auth/google/callback"
+    return configured
+
+
+# ---------------------------------------------------------------------------
+# Route 1: Start Google OAuth
+# ---------------------------------------------------------------------------
+
 @router.get("/google")
-def google_login(dev: bool = False):
+def google_login(request: Request, dev: bool = False):
     """Redirects the browser to Google OAuth consent screen, or creates local dev session if unconfigured/dev mode."""
+    origin = _get_frontend_origin(request)
+    callback_url = _get_callback_url(request)
+
     if not settings.GOOGLE_CLIENT_ID or dev:
         logger.warning("[auth/google] GOOGLE_CLIENT_ID missing or dev mode requested — minting local dev session.")
-        origin = settings.FRONTEND_ORIGIN.split(",")[0].strip()
         dev_id = "11111111-1111-4111-8111-111111111111"
         dev_email = "alex.student@nmamit.in"
         dev_name = "Alex Student"
@@ -175,11 +213,12 @@ def google_login(dev: bool = False):
 
     params = {
         "client_id": settings.GOOGLE_CLIENT_ID,
-        "redirect_uri": settings.GOOGLE_CALLBACK_URL,
+        "redirect_uri": callback_url,
         "response_type": "code",
         "scope": "openid email profile",
         "access_type": "offline",
         "prompt": "select_account",
+        "state": origin,
     }
     url = f"{GOOGLE_AUTH_URL}?{urllib.parse.urlencode(params)}"
     return RedirectResponse(url=url)
@@ -195,7 +234,9 @@ async def google_callback(request: Request):
     Exchanges the authorization code for user info, upserts user in PostgreSQL,
     issues our own HS256 JWT in an HttpOnly cookie, and redirects to the frontend.
     """
-    origin = settings.FRONTEND_ORIGIN.split(",")[0].strip()
+    origin = _get_frontend_origin(request)
+    callback_url = _get_callback_url(request)
+
     code = request.query_params.get("code")
     error = request.query_params.get("error")
 
@@ -212,7 +253,7 @@ async def google_callback(request: Request):
                     "code": code,
                     "client_id": settings.GOOGLE_CLIENT_ID,
                     "client_secret": settings.GOOGLE_CLIENT_SECRET,
-                    "redirect_uri": settings.GOOGLE_CALLBACK_URL,
+                    "redirect_uri": callback_url,
                     "grant_type": "authorization_code",
                 },
             )
@@ -265,8 +306,6 @@ async def google_callback(request: Request):
     redirect_url = f"{origin}/auth/callback?token={token}&onboarded={'true' if is_onboarded else 'false'}"
     response = RedirectResponse(url=redirect_url)
     _set_session_cookie(response, token)
-    # Match the session lifetime — a 10-minute max_age made the frontend think
-    # every returning user was still un-onboarded.
     response.set_cookie(
         key="onboarding_completed",
         value="true" if is_onboarded else "false",
