@@ -12,7 +12,6 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { useAuth } from "./providers";
-import { useRouter } from "next/navigation";
 import type { User } from "@/lib/types";
 
 const features = [
@@ -50,7 +49,6 @@ const features = [
 
 export default function LandingPage() {
   const { isLoggedIn, user, role, loginWithGoogle, onboardingData } = useAuth();
-  const router = useRouter();
   const [authError, setAuthError] = useState<string | null>(null);
 
   // Surface OAuth/provisioning errors passed back by /auth/callback
