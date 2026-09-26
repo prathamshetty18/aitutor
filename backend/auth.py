@@ -185,8 +185,8 @@ def google_login(request: Request, dev: bool = False):
     if not settings.GOOGLE_CLIENT_ID or dev:
         logger.warning("[auth/google] GOOGLE_CLIENT_ID missing or dev mode requested — minting local dev session.")
         dev_id = "11111111-1111-4111-8111-111111111111"
-        dev_email = "alex.student@nmamit.in"
-        dev_name = "Alex Student"
+        dev_email = "student@nmamit.in"
+        dev_name = "Student User"
         user = ensure_local_user(
             user_id=dev_id,
             email=dev_email,

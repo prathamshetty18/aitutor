@@ -114,7 +114,7 @@ export default function LandingPage() {
             onClick={handleGoToApp}
             className="px-5 py-2.5 rounded-full bg-gradient-to-r from-[#E07A2F] to-[#F5A623] text-white text-sm font-semibold shadow-md hover:shadow-lg transition-all hover:scale-[1.02] cursor-pointer flex items-center gap-2"
           >
-            <span>Dashboard ({user?.name?.split(" ")[0] || "Account"})</span>
+            <span>{user?.name ? `Dashboard (${user.name.split(" ")[0]})` : "Go to Dashboard"}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         ) : (
@@ -182,7 +182,7 @@ export default function LandingPage() {
               onClick={handleGoToApp}
               className="px-8 py-4 rounded-2xl bg-gradient-to-r from-[#E07A2F] to-[#F5A623] text-white text-lg font-bold shadow-lg hover:shadow-xl transition-shadow cursor-pointer flex items-center gap-3 mx-auto"
             >
-              <span>Go to Your Dashboard ({user?.name || "Student"})</span>
+              <span>{user?.name ? `Go to Your Dashboard (${user.name})` : "Go to Your Dashboard"}</span>
               <ArrowRight className="w-5 h-5" />
             </motion.button>
           ) : (

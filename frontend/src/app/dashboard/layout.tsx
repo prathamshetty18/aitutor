@@ -106,9 +106,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
               <div className="hidden sm:flex items-center gap-2 text-sm text-[var(--text-secondary)]">
                 <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#E07A2F] to-[#F5A623] flex items-center justify-center text-white text-xs font-bold">
-                  {user?.name?.charAt(0) || "A"}
+                  {user?.name?.charAt(0) || "S"}
                 </div>
-                <span className="font-medium">{user?.name || "Alex"}</span>
+                <span className="font-medium">{user?.name || "Student"}</span>
               </div>
 
               <button
